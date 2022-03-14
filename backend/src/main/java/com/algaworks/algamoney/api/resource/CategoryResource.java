@@ -32,20 +32,30 @@ public class CategoryResource {
 	
 	@PostMapping
 	public ResponseEntity<Category> create(@RequestBody Category category, HttpServletResponse response) {
-		Category categorySaved = categoryRepository.save(category);
+		Category savedCategory = categoryRepository.save(category);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
-				.buildAndExpand(categorySaved.getId()).toUri();
+				.buildAndExpand(savedCategory.getId()).toUri();
 		//response.setHeader("Location", uri.toASCIIString());
 		
-		return ResponseEntity.created(uri).body(categorySaved);
+		return ResponseEntity.created(uri).body(savedCategory);
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Category> findById(@PathVariable long id) {
+	public ResponseEntity<Category> findById(@PathVariable Long id) {
 		
 		return categoryRepository.findById(id)
 				.map(category -> ResponseEntity.ok(category))
 				.orElse(ResponseEntity.notFound().build());
+	
+	
+//		Optional<Categoria> categoria = categoriaRepository.findById(codigo);
+//
+//        return categoria.isPresent() ? ResponseEntity.ok(categoria.get()) : ResponseEntity.notFound().build();
+	
 	}
+	
+
+	
+	
 }
