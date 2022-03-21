@@ -9,7 +9,7 @@ public class Address {
     private String number;
     private String adjunct;
     private String district;
-    private String zipCode;
+    private String zipcode;
     private String city;
     private String state;
 	
@@ -38,10 +38,10 @@ public class Address {
 		this.district = district;
 	}
 	public String getZipCode() {
-		return zipCode;
+		return zipcode;
 	}
 	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
+		this.zipcode = zipCode;
 	}
 	public String getCity() {
 		return city;
