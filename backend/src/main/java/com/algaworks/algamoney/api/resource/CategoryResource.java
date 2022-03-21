@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.algaworks.algamoney.api.event.ResourceCreatedEvent;
 import com.algaworks.algamoney.api.model.Category;
 import com.algaworks.algamoney.api.repository.CategoryRepository;
 
@@ -25,6 +28,9 @@ public class CategoryResource {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
+	
+	@Autowired
+	private ApplicationEventPublisher applicationEventPublisher;
 
 	@GetMapping
 	public List<Category> list() {
@@ -35,11 +41,12 @@ public class CategoryResource {
 	public ResponseEntity<Category> create(@Valid @RequestBody Category category, HttpServletResponse response) {
 		Category savedCategory = categoryRepository.save(category);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentRequestUri().path("/{id}")
-				.buildAndExpand(savedCategory.getId()).toUri();
+		
+		applicationEventPublisher.publishEvent(new ResourceCreatedEvent(this, response, savedCategory.getId()));
+		
 		//response.setHeader("Location", uri.toASCIIString());
 		
-		return ResponseEntity.created(uri).body(savedCategory);
+		return ResponseEntity.status(HttpStatus.CREATED).body(savedCategory);
 	}
 	
 	@GetMapping("/{id}")
