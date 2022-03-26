@@ -17,7 +17,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
@@ -33,7 +32,8 @@ public class AlgamoneyExceptionHandler  extends ResponseEntityExceptionHandler{
 		// TODO Auto-generated method stub
 		
 		String userMessage = messageSource.getMessage("invalid.message", null, LocaleContextHolder.getLocale());
-		String devMessage = ex.getCause().toString();
+		String devMessage = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
+		//String mensagemDesenvolvedor = Optional.ofNullable(ex.getCause()).orElse(ex).toString();
 		
 		List<Error> errors = Arrays.asList(new Error(userMessage,devMessage));
 		return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request) ;
