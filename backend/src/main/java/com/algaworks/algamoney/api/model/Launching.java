@@ -27,8 +27,8 @@ public class Launching {
 	private LocalDate dueDate;
 	
 	@Column(name = "payment_date")
-	
 	private LocalDate paymentDate;
+	
 	private BigDecimal value;
 	private String observation;
 	
