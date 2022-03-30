@@ -1,5 +1,6 @@
 package com.algaworks.algamoney.api.model;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 @Embeddable
@@ -9,7 +10,9 @@ public class Address {
     private String number;
     private String adjunct;
     private String district;
-    private String zipcode;
+    
+    @Column(name="zip_code")
+    private String zipCode;
     private String city;
     private String state;
 	
@@ -38,10 +41,10 @@ public class Address {
 		this.district = district;
 	}
 	public String getZipCode() {
-		return zipcode;
+		return zipCode;
 	}
 	public void setZipCode(String zipCode) {
-		this.zipcode = zipCode;
+		this.zipCode = zipCode;
 	}
 	public String getCity() {
 		return city;
