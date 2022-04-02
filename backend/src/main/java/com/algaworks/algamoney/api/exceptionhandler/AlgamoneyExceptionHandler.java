@@ -37,7 +37,7 @@ public class AlgamoneyExceptionHandler  extends ResponseEntityExceptionHandler{
 		String devMessage = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
 		//String mensagemDesenvolvedor = Optional.ofNullable(ex.getCause()).orElse(ex).toString();
 		
-		List<Error> errors = Arrays.asList(new Error(userMessage,devMessage));
+		List<Erro> errors = Arrays.asList(new Erro(userMessage,devMessage));
 		return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request) ;
 				
 	}
@@ -46,7 +46,7 @@ public class AlgamoneyExceptionHandler  extends ResponseEntityExceptionHandler{
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 		// TODO Auto-generated method stub
-		List<Error> errors = createErrorList(ex.getBindingResult());
+		List<Erro> errors = createErrorList(ex.getBindingResult());
 		return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
 	}
 	
@@ -56,7 +56,7 @@ public class AlgamoneyExceptionHandler  extends ResponseEntityExceptionHandler{
 		String userMessage = messageSource.getMessage("resource.not-found", null, LocaleContextHolder.getLocale());
 		String devMessage = ex.toString();
 		
-		List<Error> errors = Arrays.asList(new Error(userMessage,devMessage));
+		List<Erro> errors = Arrays.asList(new Erro(userMessage,devMessage));
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
 	
@@ -65,29 +65,29 @@ public class AlgamoneyExceptionHandler  extends ResponseEntityExceptionHandler{
 		String userMessage = messageSource.getMessage("resource.operation-not-allowed", null,LocaleContextHolder.getLocale());
 		String devMessage = ExceptionUtils.getRootCauseMessage(ex);
 		
-		List<Error> errors = Arrays.asList(new Error(userMessage,devMessage));
+		List<Erro> errors = Arrays.asList(new Erro(userMessage,devMessage));
 		return handleExceptionInternal(ex, errors, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 	
-	private List<Error> createErrorList(BindingResult bindingResult){
-		List<Error> errors = new ArrayList<>();  
+	private List<Erro> createErrorList(BindingResult bindingResult){
+		List<Erro> errors = new ArrayList<>();  
 		
 		for (FieldError fieldError : bindingResult.getFieldErrors()) {
 			String userMessage = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
 			String devMessage = fieldError.toString();
-			errors.add(new Error(userMessage,devMessage));
+			errors.add(new Erro(userMessage,devMessage));
 		}
 		
 		
 		return errors;
 	}
 	
-	public static class Error{
+	public static class Erro{
 		
 		private String userMessage;
 		private String devMessage;
 		
-		public Error(String userMessage,String devMessage) {
+		public Erro(String userMessage,String devMessage) {
 			this.userMessage = userMessage;
 			this.devMessage = devMessage;
 			
