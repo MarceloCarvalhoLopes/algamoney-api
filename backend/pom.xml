@@ -61,18 +61,49 @@
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.12.0</version><!--$NO-MVN-MAN-VER$-->
+			<version>3.12.0</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
+
+		<!-- JPA Modelgen -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- API, java.xml.bind module -->
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>3.0.1</version><!--$NO-MVN-MAN-VER$ -->
+		</dependency>
+
 
 
 	</dependencies>
 
 	<build>
 		<plugins>
+		
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.algaworks.algamoney.api.AlgamoneyApplication</mainClass> 
+				</configuration>
 			</plugin>
+			
+			<plugin>	
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>11</source>
+					<target>11</target>
+					<failOnError>false</failOnError>
+					<generatedSourcesDirectory>src/main/java</generatedSourcesDirectory>
+				</configuration>
+			</plugin>
+			
 		</plugins>
 	</build>
 

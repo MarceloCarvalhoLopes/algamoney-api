@@ -24,6 +24,7 @@ import com.algaworks.algamoney.api.event.ResourceCreatedEvent;
 import com.algaworks.algamoney.api.exceptionhandler.AlgamoneyExceptionHandler.Erro;
 import com.algaworks.algamoney.api.model.Launching;
 import com.algaworks.algamoney.api.repository.LaunchingRepository;
+import com.algaworks.algamoney.api.repository.filter.LaunchingFilter;
 import com.algaworks.algamoney.api.service.LaunchingService;
 import com.algaworks.algamoney.api.service.exception.NonExistentOrActivePersonException;
 
@@ -44,8 +45,8 @@ public class LaunchingResource {
 	private MessageSource messageSource;
 	
 	@GetMapping
-	public List<Launching> list(){
-		return launchingRepository.findAll();
+	public List<Launching> research(LaunchingFilter lauchingFilter){
+		return launchingRepository.filter(lauchingFilter);
 	}
 	
 	@GetMapping("/{id}")
