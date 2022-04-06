@@ -1,12 +1,13 @@
 package com.algaworks.algamoney.api.repository.lauching;
 
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.algaworks.algamoney.api.model.Launching;
 import com.algaworks.algamoney.api.repository.filter.LaunchingFilter;
 
 public interface LaunchingRepositoryQuery {
 
-	public List<Launching> filter(LaunchingFilter launchingFilter);
+	public Page<Launching> filter(LaunchingFilter launchingFilter, Pageable pageable);
 	
 }
