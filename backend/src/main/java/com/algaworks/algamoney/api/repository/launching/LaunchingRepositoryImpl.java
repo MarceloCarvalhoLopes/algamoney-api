@@ -1,4 +1,4 @@
-package com.algaworks.algamoney.api.repository.lauching;
+package com.algaworks.algamoney.api.repository.launching;
 
 import java.util.ArrayList;
 import java.util.List;
