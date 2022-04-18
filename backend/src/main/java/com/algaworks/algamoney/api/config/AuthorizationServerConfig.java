@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -22,8 +21,6 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private UserDetailsService userDetailsService;
@@ -32,28 +29,23 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 	    clients.inMemory()
 	            .withClient("angular")
-	            .secret(passwordEncoder.encode("@ngul@r0")) // @ngul@r0
+	            .secret("$2a$10$UAc049fUm6Bxy8X/.mpn8.PfD2ncb4ZgvmEa5Hb.JOGVJNX1ampgG") // @ngul@r0
 	            .scopes("read", "write")
 	            .authorizedGrantTypes("password","refresh_token")
 	            .accessTokenValiditySeconds(1800)
-	            .refreshTokenValiditySeconds(3600 * 24)
-	        .and()
-	            .withClient("mobile")
-	            .secret(passwordEncoder.encode("m0b1l30")) // m0b1l30
-	            .scopes("read")
-	            .authorizedGrantTypes("password","refresh_token")
-	            .accessTokenValiditySeconds(1800)
 	            .refreshTokenValiditySeconds(3600 * 24);
+
 	}
 	
 	@Override
 	public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
 		endpoints
 			.authenticationManager(authenticationManager)
+			.userDetailsService(userDetailsService)
 			.accessTokenConverter(accessTokenConverter())
-			.reuseRefreshTokens(false)
 			.tokenStore(tokenStore())
-			.userDetailsService(userDetailsService);
+		    .reuseRefreshTokens(false);
+			
 	}
 
 
