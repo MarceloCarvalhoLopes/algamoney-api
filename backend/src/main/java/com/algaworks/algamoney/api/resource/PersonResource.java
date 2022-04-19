@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,11 +39,13 @@ public class PersonResource {
 	private ApplicationEventPublisher applicationEventPublisher;
 	
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_RESEARCH_PERSON') and hasAuthority('SCOPE_read')")
 	public List<Person>list(){
 		return personRepository.findAll();
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_RESEARCH_PERSON') and hasAuthority('SCOPE_read')")
 	public ResponseEntity<Person> findById(@PathVariable Long id){
 		return personRepository.findById(id)
 				.map(person -> ResponseEntity.ok(person))
@@ -51,6 +54,7 @@ public class PersonResource {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_PERSON') and hasAuthority('SCOPE_write')")
 	public ResponseEntity<Person>create(@Valid @RequestBody Person person, HttpServletResponse response ){
 		Person savedPerson = personRepository.save(person);
 		
@@ -60,12 +64,14 @@ public class PersonResource {
 	}
 	
 	@DeleteMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_DELETE_PERSON') and hasAuthority('SCOPE_write')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) {
 		personRepository.deleteById(id);
 	}
 	
 	@PutMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_PERSON') and hasAuthority('SCOPE_write')")
 	public ResponseEntity<Person> update(@PathVariable Long id, @Valid @RequestBody Person person){
 		
 		Person savedPerson = personService.update(id, person);	
@@ -73,9 +79,9 @@ public class PersonResource {
 		return ResponseEntity.ok(savedPerson);
 		
 	}
-	
 
 	@PutMapping("{id}/active")
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_PERSON') and hasAuthority('SCOPE_write')")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void updatePropertyActive(@PathVariable Long id, @RequestBody Boolean active){
 		

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,11 +50,13 @@ public class LaunchingResource {
 	private MessageSource messageSource;
 	
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_RESEARCH_LAUNCHING') and hasAuthority('SCOPE_read')")
 	public Page<Launching> research(LaunchingFilter lauchingFilter, Pageable pageable){
 		return launchingRepository.filter(lauchingFilter,pageable);
 	}
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_RESEARCH_LAUNCHING') and hasAuthority('SCOPE_read')")
 	public ResponseEntity<Launching> findById(@PathVariable Long id){
 		return launchingRepository.findById(id)
 				.map(launching -> ResponseEntity.ok(launching))
@@ -61,6 +64,7 @@ public class LaunchingResource {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_LAUNCHING') and hasAuthority('SCOPE_write')")
 	public ResponseEntity<Launching> create(@Valid @RequestBody Launching launching, HttpServletResponse respose){
 		Launching savedLaunching = launchingService.save(launching);
 		 
@@ -71,6 +75,7 @@ public class LaunchingResource {
 	
 	@DeleteMapping("/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_DELETE_LAUNCHING') and hasAuthority('SCOPE_write')")
 	public void delete(@PathVariable Long id) {
 		launchingRepository.deleteById(id);
 	}

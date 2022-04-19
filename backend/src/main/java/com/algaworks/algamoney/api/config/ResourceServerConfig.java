@@ -10,6 +10,7 @@ import javax.crypto.spec.SecretKeySpec;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -26,6 +27,7 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 @SuppressWarnings("deprecation")
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
@@ -43,14 +45,6 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
 					
 	}
 	
-//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("admin")
-//                .password("admin")
-//                .roles("ROLE");
-//    }
-	
-
 	
 	@Bean
 	public JwtDecoder jwtDecoder() {
@@ -74,12 +68,7 @@ public class ResourceServerConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
     
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsServiceBean() throws Exception {
-//       return super.userDetailsServiceBean();
-//    }
-    
+  
 	private JwtAuthenticationConverter jwtAuthenticationConverter() {
 	
 		JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
