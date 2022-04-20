@@ -30,6 +30,7 @@ import com.algaworks.algamoney.api.exceptionhandler.AlgamoneyExceptionHandler.Er
 import com.algaworks.algamoney.api.model.Launching;
 import com.algaworks.algamoney.api.repository.LaunchingRepository;
 import com.algaworks.algamoney.api.repository.filter.LaunchingFilter;
+import com.algaworks.algamoney.api.repository.projection.LaunchingResume;
 import com.algaworks.algamoney.api.service.LaunchingService;
 import com.algaworks.algamoney.api.service.exception.NonExistentOrActivePersonException;
 
@@ -53,6 +54,12 @@ public class LaunchingResource {
 	@PreAuthorize("hasAuthority('ROLE_RESEARCH_LAUNCHING') and hasAuthority('SCOPE_read')")
 	public Page<Launching> research(LaunchingFilter lauchingFilter, Pageable pageable){
 		return launchingRepository.filter(lauchingFilter,pageable);
+	}
+	
+	@GetMapping(params = "resume")
+	@PreAuthorize("hasAuthority('ROLE_RESEARCH_LAUNCHING') and hasAuthority('SCOPE_read')")
+	public Page<LaunchingResume> resume(LaunchingFilter lauchingFilter, Pageable pageable){
+		return launchingRepository.resume(lauchingFilter,pageable);
 	}
 	
 	@GetMapping("/{id}")

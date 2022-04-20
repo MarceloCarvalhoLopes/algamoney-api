@@ -16,9 +16,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.ObjectUtils;
 
+import com.algaworks.algamoney.api.model.Category_;
 import com.algaworks.algamoney.api.model.Launching;
 import com.algaworks.algamoney.api.model.Launching_;
+import com.algaworks.algamoney.api.model.Person_;
 import com.algaworks.algamoney.api.repository.filter.LaunchingFilter;
+import com.algaworks.algamoney.api.repository.projection.LaunchingResume;
 
 public class LaunchingRepositoryImpl implements LaunchingRepositoryQuery{
 
@@ -41,7 +44,31 @@ public class LaunchingRepositoryImpl implements LaunchingRepositoryQuery{
 		return new PageImpl<>(query.getResultList(),pageable, total(launchingFilter)) ;
 	}
 
-
+	@Override
+	public Page<LaunchingResume> resume(LaunchingFilter launchingFilter, Pageable pageable) {
+		CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+		CriteriaQuery<LaunchingResume> criteria = builder.createQuery(LaunchingResume.class);
+		Root<Launching> root = criteria.from(Launching.class);
+		
+		criteria.select(builder.construct(LaunchingResume.class
+				,root.get(Launching_.id) 
+				,root.get(Launching_.description)
+				,root.get(Launching_.dueDate)
+				,root.get(Launching_.paymentDate)
+				,root.get(Launching_.value)
+				,root.get(Launching_.type)
+				,root.get(Launching_.category).get(Category_.name)
+				,root.get(Launching_.person).get(Person_.name)));
+		
+		//cria as restrições
+		Predicate[] predicates = createRestrictions(launchingFilter,builder,root) ;
+		criteria.where(predicates);
+		
+		TypedQuery<LaunchingResume> query = entityManager.createQuery(criteria);
+		addingRestricionsOfPagination(query,pageable);
+		
+		return new PageImpl<>(query.getResultList(),pageable, total(launchingFilter)) ;
+	}
 
 	private Predicate[] createRestrictions(LaunchingFilter launchingFilter, CriteriaBuilder builder,
 			Root<Launching> root) {
@@ -67,7 +94,7 @@ public class LaunchingRepositoryImpl implements LaunchingRepositoryQuery{
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 
-	private void addingRestricionsOfPagination(TypedQuery<Launching> query, Pageable pageable) {
+	private void addingRestricionsOfPagination(TypedQuery<?> query, Pageable pageable) {
 		int currentPage = pageable.getPageNumber() ;
 		int totalRecordPerPager = pageable.getPageSize();
 		int firstRecordOfPage = currentPage * totalRecordPerPager;
@@ -89,4 +116,8 @@ public class LaunchingRepositoryImpl implements LaunchingRepositoryQuery{
 		
 		return entityManager.createQuery(criteria).getSingleResult();
 	}
+
+
+
+
 }
