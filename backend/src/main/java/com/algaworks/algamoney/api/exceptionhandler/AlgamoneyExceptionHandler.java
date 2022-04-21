@@ -31,8 +31,7 @@ public class AlgamoneyExceptionHandler  extends ResponseEntityExceptionHandler{
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		// TODO Auto-generated method stub
-		
+				
 		String userMessage = messageSource.getMessage("invalid.message", null, LocaleContextHolder.getLocale());
 		String devMessage = ex.getCause() != null ? ex.getCause().toString() : ex.toString();
 		//String mensagemDesenvolvedor = Optional.ofNullable(ex.getCause()).orElse(ex).toString();
@@ -45,7 +44,7 @@ public class AlgamoneyExceptionHandler  extends ResponseEntityExceptionHandler{
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		// TODO Auto-generated method stub
+		
 		List<Erro> errors = createErrorList(ex.getBindingResult());
 		return handleExceptionInternal(ex, errors, headers, HttpStatus.BAD_REQUEST, request);
 	}
