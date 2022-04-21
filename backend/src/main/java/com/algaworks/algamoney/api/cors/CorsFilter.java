@@ -24,8 +24,6 @@ public class CorsFilter implements Filter {
 	@Autowired
 	private AlgamoneyApiProperty algamoneyApiProperty;
 
-	
-	
 
 	@Override
 	public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain)
