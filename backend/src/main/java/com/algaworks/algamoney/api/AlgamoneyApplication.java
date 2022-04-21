@@ -8,11 +8,10 @@ import com.algaworks.algamoney.api.config.property.AlgamoneyApiProperty;
 
 @SpringBootApplication
 @EnableConfigurationProperties(AlgamoneyApiProperty.class)
-
-public class AlgamoneyApiApplication {
+public class AlgamoneyApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(AlgamoneyApiApplication.class, args);
+		SpringApplication.run(AlgamoneyApplication.class, args);
 	}
 	
 
