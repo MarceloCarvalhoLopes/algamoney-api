@@ -15,8 +15,8 @@
 	<name>algamoney</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>11</java.version>	
-		
+		<java.version>11</java.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -46,11 +46,13 @@
 		</dependency>
 
 		<!-- mysql -->
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<scope>runtime</scope>
+			<version>8.0.28</version><!--$NO-MVN-MAN-VER$-->
 		</dependency>
+
 
 		<!-- flyway migration -->
 		<dependency>
