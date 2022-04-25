@@ -16,7 +16,7 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>	
-		<start-class>com.algaworks.algamoney.api.AlgamoneyApplication</start-class>	
+		
 	</properties>
 	<dependencies>
 		<dependency>
@@ -121,12 +121,13 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<!--mainClass>com.algaworks.algamoney.api.AlgamoneyApplication</mainClass>  -->
+					<mainClass>com.algaworks.algamoney.api.AlgamoneyApplication</mainClass>
 				</configuration>
 
 			</plugin>
 
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
 					<source>11</source>
