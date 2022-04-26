@@ -50,7 +50,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>8.0.28</version><!--$NO-MVN-MAN-VER$-->
+			<version>8.0.28</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
 
@@ -67,12 +67,8 @@
 			<version>3.12.0</version><!--$NO-MVN-MAN-VER$ -->
 		</dependency>
 
-		<!-- JPA Modelgen -->
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-jpamodelgen</artifactId>
-			<scope>provided</scope>
-		</dependency>
+		<!-- JPA Modelgen <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-jpamodelgen</artifactId> 
+			<scope>provided</scope> </dependency> -->
 
 		<!-- API, java.xml.bind module -->
 		<dependency>
@@ -112,7 +108,11 @@
 			<optional>true</optional>
 		</dependency>
 
-
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.1</version>
+		</dependency>
 
 	</dependencies>
 
@@ -122,6 +122,9 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>com.algaworks.algamoney.api.AlgamoneyApplication</mainClass>
+				</configuration>
 
 			</plugin>
 
