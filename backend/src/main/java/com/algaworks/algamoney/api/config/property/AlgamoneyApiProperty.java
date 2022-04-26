@@ -1,9 +1,11 @@
 package com.algaworks.algamoney.api.config.property;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 
 @ConfigurationProperties("algamoney")
+@Component
 public class AlgamoneyApiProperty {
 
 	private String allowedOrigin = "http://localhost:8000";
