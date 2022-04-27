@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -95,5 +96,21 @@ public class LaunchingResource {
 		List<Erro> errors = Arrays.asList(new Erro(userMessage,devMessage));
 		
 		return ResponseEntity.badRequest().body(errors);
+	}
+	
+	
+	@PutMapping("/{id}")
+	@PreAuthorize("hasAuthority('ROLE_REGISTER_LAUNCHING') and hasAuthority('SCOPE_write')")
+	public ResponseEntity<Launching> update (@PathVariable Long id, @Valid @RequestBody Launching launching){
+		Launching savedLaunching = launchingService.update(id, launching);
+		return ResponseEntity.ok(savedLaunching);
+		
+//		try {
+//			Launching savedLaunching = launchingService.update(id, launching);
+//			return ResponseEntity.ok(savedLaunching);
+//		} catch (IllegalArgumentException e) {
+//			return ResponseEntity.notFound().build();
+//		}
+		
 	}
 }
