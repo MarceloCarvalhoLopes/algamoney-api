@@ -1,0 +1,90 @@
+<div class="container">
+  <form autocomplete="off" #lancamentoForm="ngForm">
+
+    <div class="grid">
+      <div class="col-12">
+        <h1>Novo Lançamento</h1>
+      </div>
+
+      <div class="col-12">
+        <p-selectButton [options]="tipos" #tipo></p-selectButton>
+      </div>
+
+      <div class="col-6 md:col-3 p-fluid">
+        <label>Vencimento</label>
+        <p-calendar dateFormat="dd/mm/yy" [showIcon]="false" inputId="icon"
+          [readonlyInput]="false" name="vencimento" ngModel #vencimento="ngModel" [required]="true">
+        </p-calendar>
+
+        <app-message [control]="vencimento" error="required"
+          text="Informe um vencimento">
+        </app-message>
+
+      </div>
+
+      <div class="col-6 md:col-3 p-fluid">
+        <label> {{tipo.value === 'RECEITA' ? 'Recebimento' : 'Pagamento'}} </label>
+        <p-calendar dateFormat="dd/mm/yy" [showIcon]="false" inputId="icon"
+          [readonlyInput]="false" >
+        </p-calendar>
+      </div>
+
+      <div class="col-12 md:col-9 p-fluid">
+        <!--<label>Descrição {{descricao.errors | json}}</label> -->
+        <label>Descrição</label>
+        <input pInputText type="text" name="descricao"
+        ngModel #descricao="ngModel" [required]="true" minlength="5">
+
+        <app-message [control]="descricao" error="required"
+          text="Informe uma descrição">
+        </app-message>
+
+        <app-message [control]="descricao" error="minlength"
+          text="Mínimo de {{ descricao.errors?.minlength?.requiredLength }} caracteres. Você digitou apenas {{ descricao.errors?.minlength?.actualLength }}">
+        </app-message>
+
+
+        <!--
+          <p-message  *ngIf="descricao.hasError('required') && descricao.dirty" severity="error"
+          text="Informe uma descrição">
+          </p-message>
+
+        <p-message *ngIf="descricao.hasError('minlength') && descricao.dirty" severity="error"
+          text="Mínimo de {{descricao.errors?.minlength.requiredLength}} caracteres.
+          Você digitou apenas  {{ descricao.errors?.minlength.actualLength }}">
+        </p-message>
+        -->
+
+      </div>
+
+      <div class="col-6 md:col-3 p-fluid">
+        <label>Valor</label>
+        <p-inputNumber mode="currency" currency="BRL" placeholder="0,00"
+          name="valor" ngModel #valor="ngModel" [required]="true"></p-inputNumber>
+      </div>
+
+      <div class="col-12 md:col-6 p-fluid">
+        <label>Categoria {{categoria.value}}</label>
+        <p-dropdown [options]="categorias" placeholder="Selecione" #categoria [required]="true"></p-dropdown>
+      </div>
+
+      <div class="col-12 md:col-6 p-fluid">
+        <label>Pessoa</label>
+        <p-dropdown [options]="pessoas" placeholder="Selecione" [filter]="true" #pessoa [required]="true"></p-dropdown>
+      </div>
+
+      <div class="col-12 p-fluid">
+        <label>Observação</label>
+        <textarea pInputTextarea rows="3" ></textarea>
+      </div>
+
+      <div class="col-12">
+        <button pButton type="submit" label="Salvar" [disabled]="lancamentoForm.invalid"></button>
+        <button pButton type="button" label="Novo" class="p-button-info"></button>
+        <a href="javascritpt:;">Voltar para pesquisa</a>
+      </div>
+
+    </div>
+
+  </form>
+</div>
