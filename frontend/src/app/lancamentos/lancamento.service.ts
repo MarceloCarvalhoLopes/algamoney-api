@@ -22,10 +22,13 @@ export class LancamentoService {
 
   pesquisar(filtro : LancamentoFiltro): Promise<any> {
 
-    const headers = new HttpHeaders()
-      .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
-
+    let headers = new HttpHeaders();
     let params = new HttpParams();
+
+    headers = headers.set('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+
+    params = params.set('page', filtro.pagina);
+    params = params.set('size', filtro.itensPorPagina);
 
     if (filtro.descricao){
       params = params.set('description',filtro.descricao);
@@ -39,8 +42,6 @@ export class LancamentoService {
       params = params.set('dueDateUntil', this.datePipe.transform(filtro.dataVencimentoFim,'yyyy-MM-dd')!);
     }
 
-    params = params.set('page', filtro.pagina);
-    params = params.set('size', filtro.itensPorPagina);
 
     return this.http.get(`${this.lancamentoUrl}?resume`, {headers,params})
       .toPromise()
