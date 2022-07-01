@@ -59,4 +59,13 @@ export class LancamentoService {
 
   }
 
+  excluir(id: number): Promise<void>{
+    const headers = new HttpHeaders()
+    .append('Authorization', 'Basic YWRtaW5AYWxnYW1vbmV5LmNvbTphZG1pbg==');
+
+    return this.http.delete<void>(`${this.lancamentoUrl}/${id}`, { headers })
+    .toPromise();
+
+  }
+
 }
