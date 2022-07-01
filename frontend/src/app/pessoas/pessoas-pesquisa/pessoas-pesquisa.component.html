@@ -1,21 +1,64 @@
 <div class="container">
-  <div class="grid">
+  <form autocomplete="off" (ngSubmit)="pesquisar()">
 
-    <div class="col-12">
+    <div class="grid">
+      <div class="col-12">
         <label><h1> Pessoas </h1> </label>
-    </div>
+      </div>
 
-    <div class="col-12 p-fluid">
-      <label>Nome</label>
-      <input pInputText type="text">
-    </div>
+     <div class="col-12 p-fluid">
+        <label>Nome</label>
+        <input pInputText type="text" name="nome" [(ngModel)]="filtro.nome">
+      </div>
 
+      <div class="col-12">
+       <button pButton type="submit" label="Pesquisar"></button>
+      </div>
+
+    </div>
+  </form>
+
+  <div class="grid">
     <div class="col-12">
-      <button pButton type="submit" label="Pesquisar"></button>
-    </div>
-
-    <div class="col-12">
-      <app-pessoas-grid [pessoas] = "pessoas"></app-pessoas-grid>
+      <p-table [value]="pessoas" styleClass="p-datatable-gridlines p-datatable-striped" [paginator]="true"
+          [rows]="5" [responsive]="true" [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="aoMudarPagina($event)" >
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="col-nome-header" >Nome</th>
+            <th class="col-cidade-header">Cidade</th>
+            <th class="col-estado-header">Estado</th>
+            <th class="col-status-header">Status</th>
+            <th class="col-acoes-header"></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-pessoa>
+          <tr>
+            <td>
+              <span class="p-column-title">Pessoa</span>
+              {{pessoa.name}}
+            </td>
+            <td>
+              <span class="p-column-title">Cidade</span>
+              {{pessoa.address.city}}
+            </td>
+            <td>
+              <span class="p-column-title">Estado</span>
+              {{pessoa.address.state}}
+            </td>
+            <td>
+              <span class="p-column-title">Status</span>
+              <a href="javascript:;" [pTooltip]="pessoa.active ? 'Desativar':'Ativar' " tooltipPosition= "top">
+                {{pessoa.ativo ? 'Ativo' : 'Inativo'}}
+              </a>
+            </td>
+            <td class="col-acoes">
+              <span class="p-column-title"></span>
+              <a pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
+              <button pButton icon="pi pi-trash" pTooltip="Excluir" tooltipPosition="top"></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
 
     <div class="col-12">
